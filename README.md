@@ -6,14 +6,51 @@ The system replaces pixel-level iris segmentation with a **6D regression of pupi
 The implementation is fully notebook-based and designed for **reproducibility and clarity**, following the experiments described in the accompanying report.
 
 ---
+## 📥 Dataset & Ground Truth
+
+### 🔹 CASIA-IrisV3-Interval (Images)
+
+The iris images are taken from the **CASIA-IrisV3-Interval** dataset.  
+For convenience, the dataset can be downloaded from the Kaggle mirror:
+
+👉 https://www.kaggle.com/datasets/swoyam2609/casia-iris-interval
+
+After downloading, extract the dataset and place it in your preferred directory.  
+Make sure the path is consistent with the `BASE_PATH` specified in the first cell of the training notebook.
+
+---
+
+### 🔹 Ground Truth Annotations
+
+The official ground-truth annotations for CASIA-IrisV3-Interval are available at:
+
+👉 https://github.com/HalmstadUniversityBiometrics/Iris-Segmentation-Groundtruth-Database/blob/main/CASIA-IrisV3-Interval_groundtruth.zip
+
+However, **inconsistencies were found** between:
+- image filenames,
+- directory structure,
+- and available annotation entries.
+
+Because of these mismatches with the images, the official ground truth could not be used directly.
+
+### 🔹 Custom Annotations
+
+To ensure full consistency with the dataset used in this project, **custom annotations were generated** and used for training and evaluation.
+
+- The annotations contain the pupil and iris circle parameters required by the 6D regression setup.
+- The annotation file is **included in this repository** and should be used instead of the original ground truth.
+
+No additional preprocessing is required: the notebooks automatically load the provided annotation file.
+
+---
+
 
 ## 📂 Repository Content
 
 - `6D_Models_Training.ipynb`  
   Training of the **Iris Localization Network (ILN)** and **Pupil Refinement Network (PRN)**.
 
-- `6D_Verification_Detection.ipynb` 
-  Daugman Style Pipeline
+- `6D_Verification_Detection.ipynb`  
   Full biometric evaluation:
   - Verification (1:1)
   - Closed-set identification (1:N)
@@ -57,6 +94,8 @@ BASE_PATH = "/content/drive/MyDrive/my_dataset_folder/"
 BASE_PATH = "/home/user/datasets/"
 ```
 
+No other cells require path modification.
+
 ---
 
 ### 🔹 What the training notebook does
@@ -91,6 +130,7 @@ This notebook:
   - closed-set identification (rank-based)
   - open-set identification (DIR / FPIR)
 
+No dataset paths need to be modified if the training notebook was run correctly.
 
 ---
 
@@ -115,7 +155,7 @@ All results match those reported in the final project report.
 - scikit-learn
 - matplotlib
 
-GPU is **not required** (experiments run on CPU/hosted free GPU).
+GPU is **not required** (experiments run on CPU).
 
 ---
 
@@ -131,3 +171,7 @@ GPU is **not required** (experiments run on CPU/hosted free GPU).
 
 - J. Daugman, *How Iris Recognition Works*, IEEE TCSVT  
 - T. Toizumi et al., *Segmentation-Free Direct Iris Localization Networks*
+
+
+---
+
